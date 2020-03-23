@@ -18,9 +18,12 @@ import copy
 import hashlib
 import json
 import os
+import certifi
 
 from elasticsearch import Elasticsearch, helpers
 from timeit import default_timer as timer
+from ssl import create_default_context
+
 
 ANALYZERS = {
     'de': 'german_custom',
@@ -184,7 +187,8 @@ def main():
     parser.add_argument('--max', type=int, default=DEFAULT_MAX, help="The maximum number of corpus documents to index, e.g. 1000")
     args = parser.parse_args()
 
-    es = Elasticsearch(args.url)
+    context = create_default_context(cafile=certifi.where())
+    es = Elasticsearch(args.url, ssl_context=context)
 
     recreate_per_field_index(es)
     recreate_per_index_indices(es)

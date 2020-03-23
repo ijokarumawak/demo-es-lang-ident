@@ -6,3 +6,6 @@ tqdm==4.38.*
 
 # search
 elasticsearch==7.*
+
+# certifi
+certifi==2019.*
